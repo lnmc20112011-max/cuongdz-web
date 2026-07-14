@@ -166,7 +166,8 @@ color:white;
 <h1>🎮 Cờ Caro</h1>
 <select id="mode">
     <option value="pvp">👥 Hai người</option>
-    <option value="ai">🤖 Chơi với máy</option>
+    <option value="easy">😀 AI Dễ</option>
+    <option value="medium">😎 AI Trung bình</option>
 </select>
 
 <br><br>
@@ -227,11 +228,23 @@ if(checkWinner()) return;
 current=current=="X"?"O":"X";
 
 status.innerHTML="Lượt: "+current;
-if(document.getElementById("mode").value=="ai" && current=="O" && !gameOver){
+if(current=="O" && !gameOver){
 
-    setTimeout(aiMove,500);
+let mode=document.getElementById("mode").value;
 
-               }
+if(mode=="easy"){
+
+setTimeout(aiEasy,500);
+
+}
+
+if(mode=="medium"){
+
+setTimeout(aiMedium,500);
+
+}
+
+}
 }
 function checkWinner(){
 
@@ -292,8 +305,71 @@ if(!game.includes("")){
 return false;
 
 }
-function aiMove(){
+function aiEasy(){
+function aiMedium(){
 
+const win=[
+
+[0,1,2],
+[3,4,5],
+[6,7,8],
+
+[0,3,6],
+[1,4,7],
+[2,5,8],
+
+[0,4,8],
+[2,4,6]
+
+];
+
+// AI thắng nếu có thể
+for(let c of win){
+
+let a=c[0],b=c[1],d=c[2];
+
+let arr=[game[a],game[b],game[d]];
+
+if(arr.filter(x=>x=="O").length==2 && arr.includes("")){
+
+if(game[a]==""){play(a);return;}
+if(game[b]==""){play(b);return;}
+if(game[d]==""){play(d);return;}
+
+}
+
+}
+
+// Chặn người chơi
+for(let c of win){
+
+let a=c[0],b=c[1],d=c[2];
+
+let arr=[game[a],game[b],game[d]];
+
+if(arr.filter(x=>x=="X").length==2 && arr.includes("")){
+
+if(game[a]==""){play(a);return;}
+if(game[b]==""){play(b);return;}
+if(game[d]==""){play(d);return;}
+
+}
+
+}
+
+// Lấy ô giữa
+if(game[4]==""){
+
+play(4);
+
+return;
+
+}
+
+// Nếu không thì đánh ngẫu nhiên
+aiEasy();
+
+    }
     let empty=[];
 
     for(let i=0;i<9;i++){
