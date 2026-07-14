@@ -281,11 +281,13 @@ collision(newHead,snake)
 
 ){
 
-requestAnimationFrame()
+requestAnimationFrame(gameLoop);
 
-alert("💀 Game Over!\n\nĐiểm của bạn: "+score);
+if(confirm("💀 Game Over!\n\nĐiểm của bạn: " + score + "\n\nNhấn OK để chơi lại.")){
+    location.reload();
+}
 
-location.reload();
+return;
 
 }
 
