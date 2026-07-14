@@ -7,141 +7,193 @@
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    background:linear-gradient(135deg,#00c6ff,#0072ff);
+background:black;
+color:#00ff00;
+font-family:monospace;
+overflow:hidden;
+text-align:center;
 }
 
-/* Màn hình chào */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
 #loading{
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    color:white;
-    text-align:center;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
-#loading h1{
-    font-size:45px;
-    margin-bottom:10px;
-}
-
-#loading p{
-    font-size:20px;
-}
-
-/* Trang chính */
 #main{
-    display:none;
-    min-height:100vh;
-    justify-content:center;
-    align-items:center;
+display:none;
+padding-top:80px;
 }
 
-.box{
-    background:white;
-    width:90%;
-    max-width:400px;
-    padding:35px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.3);
+h1{
+font-size:55px;
+text-shadow:0 0 20px #00ff00;
 }
 
-h2{
-    color:#0072ff;
-    margin-bottom:10px;
-    font-size:32px;
+#typing{
+font-size:28px;
+margin-top:20px;
+height:40px;
 }
 
-p{
-    color:#444;
-    margin-bottom:25px;
-    font-size:18px;
+#clock{
+margin:20px;
+font-size:30px;
+color:#00ffff;
 }
 
 button{
-    padding:15px 35px;
-    border:none;
-    border-radius:50px;
-    background:linear-gradient(45deg,#ff512f,#dd2476);
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
+padding:15px 35px;
+margin:15px;
+font-size:22px;
+background:black;
+color:#00ff00;
+border:2px solid #00ff00;
+border-radius:12px;
+cursor:pointer;
+transition:.3s;
 }
 
 button:hover{
-    transform:scale(1.08);
+background:#00ff00;
+color:black;
+box-shadow:0 0 25px #00ff00;
 }
 </style>
 
 </head>
+
 <body>
 
-<!-- Màn hình chào -->
+<canvas id="matrix"></canvas>
+
 <div id="loading">
-    <h1>👋 Xin chào!</h1>
-    <p>Đây là trang web của <b>CuongDZ</b>.</p>
+<h1>👋 Xin chào!</h1>
+<p>Đây là trang web của CuongDZ</p>
 </div>
 
-<!-- Trang chính -->
 <div id="main">
-    <div class="box">
 
-        <h2>🎉 CuongDZ</h2>
+<h1>CuongDZ</h1>
 
-        <p>Chào mừng bạn đến với website của mình ❤️</p>
+<div id="typing"></div>
 
-        <button onclick="alert('Cảm ơn bạn đã ghé thăm website của CuongDZ!')">
-            🚀 Khám phá
-        </button>
+<div id="clock"></div>
 
-    </div>
+<a href="snake.html">
+<button>🐍 Rắn săn mồi</button>
+</a>
+
+<a href="caro.html">
+<button>❌ Cờ caro</button>
+</a>
+
 </div>
 
 <script>
-setTimeout(function(){
-    document.getElementById("loading").style.display="none";
-    document.getElementById("main").style.display="flex";
+
+setTimeout(()=>{
+loading.style.display="none";
+main.style.display="block";
 },1000);
+
+const text="Chào mừng đến với website của CuongDZ";
+let i=0;
+
+function type(){
+
+if(i<text.length){
+typing.innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,80);
+}
+
+}
+
+type();
+
+function time(){
+
+const d=new Date();
+
+clock.innerHTML=d.toLocaleTimeString();
+
+}
+
+setInterval(time,1000);
+
+time();
+
+const canvas=document.getElementById("matrix");
+
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+const letters="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
+
+const fontSize=16;
+
+const columns=Math.floor(canvas.width/fontSize);
+
+const drops=[];
+
+for(let x=0;x<columns;x++) drops[x]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ff00";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const text=letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height&&Math.random()>0.975){
+
+drops[i]=0;
+
+}
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,33);
+
+window.onresize=()=>{
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+};
+
 </script>
 
 </body>
-  <canvas id="matrix"></canvas>
-
-<div id="loading">
-    <h1>Xin chào!</h1>
-    <p>Đây là trang web của CuongDZ</p>
-</div>
-
-<div id="main">
-    <h1 id="typing"></h1>
-
-    <h2 id="clock"></h2>
-
-    <br>
-
-    <a href="games/snake.html">
-        <button>🐍 Rắn săn mồi</button>
-    </a>
-
-    <br><br>
-
-    <a href="games/caro.html">
-        <button>❌ Cờ caro</button>
-    </a>
-</div>
-
-<script src="matrix.js"></script>
-<script src="script.js"></script>
 </html>
