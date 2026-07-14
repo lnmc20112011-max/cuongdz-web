@@ -536,6 +536,132 @@ function aiMedium(){
     aiEasy();
 
     }
+// ======================
+// 💀 AI KHÓ
+// ======================
+// ======================
+// 💀 AI KHÓ (MINIMAX)
+// ======================
+
+function aiHard(){
+
+    let bestScore=-1000;
+
+    let bestMove=-1;
+
+    for(let i=0;i<9;i++){
+
+        if(game[i]==""){
+
+            game[i]="O";
+
+            let score=minimax(0,false);
+
+            game[i]="";
+
+            if(score>bestScore){
+
+                bestScore=score;
+
+                bestMove=i;
+
+            }
+
+        }
+
+    }
+
+    if(bestMove!=-1){
+
+        play(bestMove);
+
+    }
+
+}
+   // ======================
+// MINIMAX - PHẦN 1
+// ======================
+
+function evaluate(){
+
+    for(let line of winLines){
+
+        let a=line[0];
+        let b=line[1];
+        let c=line[2];
+
+        if(game[a]==game[b] && game[b]==game[c]){
+
+            if(game[a]=="O") return 10;
+
+            if(game[a]=="X") return -10;
+
+        }
+
+    }
+
+    return 0;
+
+} 
+    // ======================
+// MINIMAX - PHẦN 2
+// ======================
+
+function minimax(depth,isMax){
+
+    let score=evaluate();
+
+    if(score==10) return score-depth;
+
+    if(score==-10) return score+depth;
+
+    if(!game.includes("")) return 0;
+
+    if(isMax){
+
+        let best=-1000;
+
+        for(let i=0;i<9;i++){
+
+            if(game[i]==""){
+
+                game[i]="O";
+
+                best=Math.max(best,minimax(depth+1,false));
+
+                game[i]="";
+
+            }
+
+        }
+
+        return best;
+
+    }
+
+    else{
+
+        let best=1000;
+
+        for(let i=0;i<9;i++){
+
+            if(game[i]==""){
+
+                game[i]="X";
+
+                best=Math.min(best,minimax(depth+1,true));
+
+                game[i]="";
+
+            }
+
+        }
+
+        return best;
+
+    }
+
+}
 </script>
 
 </body>
