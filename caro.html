@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cờ Caro | CuongDZ</title>
+
+<style>
+
+body{
+
+margin:0;
+
+font-family:Arial;
+
+background:#0f172a;
+
+color:white;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+}
+
+.container{
+
+text-align:center;
+
+}
+
+h1{
+
+margin-bottom:15px;
+
+}
+
+#status{
+
+font-size:22px;
+
+margin-bottom:15px;
+
+}
+
+.board{
+
+display:grid;
+
+grid-template-columns:repeat(3,100px);
+
+grid-template-rows:repeat(3,100px);
+
+gap:5px;
+
+justify-content:center;
+
+}
+
+.cell{
+
+background:#1e293b;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:55px;
+
+cursor:pointer;
+
+border-radius:10px;
+
+transition:.2s;
+
+}
+
+.cell:hover{
+
+background:#334155;
+
+}
+
+button{
+
+margin-top:20px;
+
+padding:12px 25px;
+
+font-size:18px;
+
+border:none;
+
+border-radius:10px;
+
+background:#22c55e;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎮 Cờ Caro</h1>
+
+<div id="status">
+Lượt: X
+</div>
+
+<div class="board" id="board">
+
+</div>
+
+<button onclick="restart()">
+🔄 Chơi lại
+</button>
+
+</div>
+
+<script>
+
+const board=document.getElementById("board");
+
+const status=document.getElementById("status");
+
+let current="X";
+
+let cells=[];
+
+let game=[
+"","","",
+"","","",
+"","",""
+];
+
+for(let i=0;i<9;i++){
+
+const cell=document.createElement("div");
+
+cell.className="cell";
+
+cell.onclick=()=>play(i);
+
+board.appendChild(cell);
+
+cells.push(cell);
+
+}
+
+function play(i){
+
+if(game[i]!="") return;
+
+game[i]=current;
+
+cells[i].innerHTML=current;
+
+if(checkWinner()) return;
+
+current=current=="X"?"O":"X";
+
+status.innerHTML="Lượt: "+current;
+
+}
+function checkWinner(){
+
+const win=[
+
+[0,1,2],
+[3,4,5],
+[6,7,8],
+
+[0,3,6],
+[1,4,7],
+[2,5,8],
+
+[0,4,8],
+[2,4,6]
+
+];
+
+for(let c of win){
+
+let a=c[0];
+let b=c[1];
+let d=c[2];
+
+if(game[a]!=""&&game[a]==game[b]&&game[b]==game[d]){
+
+status.innerHTML="🏆 "+game[a]+" thắng!";
+
+return true;
+
+}
+
+}
+
+if(!game.includes("")){
+
+status.innerHTML="🤝 Hòa!";
+
+return true;
+
+}
+
+return false;
+
+}
+function restart(){
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+
+</html>
