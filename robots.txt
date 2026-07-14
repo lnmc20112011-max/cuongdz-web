@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lnmc20112011-max.github.io/cuongdz-web/sitemap.xml
