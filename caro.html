@@ -333,23 +333,7 @@ if(checkWinner())return;
 current=current=="X"?"O":"X";
 
 status.innerHTML="Lượt: "+current;
-if(current=="O" && !gameOver){
 
-    let mode=document.getElementById("mode").value;
-
-    if(mode=="easy"){
-
-        setTimeout(aiEasy,300);
-
-    }
-
-    else if(mode=="medium"){
-
-        setTimeout(aiMedium,300);
-
-    }
-
-}
 let mode=document.getElementById("mode").value;
 
 if(current=="O"&&!gameOver){
@@ -552,3 +536,8 @@ function aiMedium(){
     aiEasy();
 
     }
+</script>
+
+</body>
+
+</html>
