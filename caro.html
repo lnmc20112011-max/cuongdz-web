@@ -164,7 +164,12 @@ color:white;
 <div class="container">
 
 <h1>🎮 Cờ Caro</h1>
+<select id="mode">
+    <option value="pvp">👥 Hai người</option>
+    <option value="ai">🤖 Chơi với máy</option>
+</select>
 
+<br><br>
 <div id="status">
 Lượt: X
 </div>
@@ -222,7 +227,11 @@ if(checkWinner()) return;
 current=current=="X"?"O":"X";
 
 status.innerHTML="Lượt: "+current;
+if(document.getElementById("mode").value=="ai" && current=="O" && !gameOver){
 
+    setTimeout(aiMove,500);
+
+               }
 }
 function checkWinner(){
 
@@ -281,6 +290,27 @@ if(!game.includes("")){
 }
 
 return false;
+
+}
+function aiMove(){
+
+    let empty=[];
+
+    for(let i=0;i<9;i++){
+
+        if(game[i]==""){
+
+            empty.push(i);
+
+        }
+
+    }
+
+    if(empty.length==0) return;
+
+    let move=empty[Math.floor(Math.random()*empty.length)];
+
+    play(move);
 
 }
 function restart(){
