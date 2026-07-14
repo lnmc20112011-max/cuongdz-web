@@ -142,7 +142,7 @@ const board=document.getElementById("board");
 const status=document.getElementById("status");
 
 let current="X";
-
+let gameOver = false;
 let cells=[];
 
 let game=[
@@ -166,7 +166,7 @@ cells.push(cell);
 }
 
 function play(i){
-
+if(gameOver) return;
 if(game[i]!="") return;
 
 game[i]=current;
@@ -204,7 +204,11 @@ let b=c[1];
 let d=c[2];
 
 if(game[a]!=""&&game[a]==game[b]&&game[b]==game[d]){
+cells[a].style.background="#22c55e";
+cells[b].style.background="#22c55e";
+cells[d].style.background="#22c55e";
 
+gameOver = true;
 status.innerHTML="🏆 "+game[a]+" thắng!";
 
 return true;
@@ -214,6 +218,14 @@ return true;
 }
 
 if(!game.includes("")){
+
+    gameOver = true;
+
+    status.innerHTML="🤝 Hòa!";
+
+    return true;
+
+}
 
 status.innerHTML="🤝 Hòa!";
 
